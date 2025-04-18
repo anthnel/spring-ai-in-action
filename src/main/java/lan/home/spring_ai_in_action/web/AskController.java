@@ -14,7 +14,7 @@ public class AskController {
 
     private final SpringAiChatService springAiChatService;
 
-    public AskController(SpringAiChatService springAiChatService, ChatClient chatClient) {
+    public AskController(SpringAiChatService springAiChatService) {
         this.springAiChatService = springAiChatService;
 
     }
