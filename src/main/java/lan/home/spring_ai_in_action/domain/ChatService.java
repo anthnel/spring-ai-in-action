@@ -1,5 +1,7 @@
 package lan.home.spring_ai_in_action.domain;
 
+import reactor.core.publisher.Flux;
+
 public interface ChatService {
-    Answer askQuestion(Question question);
+    Flux<String> askQuestion(Question question);
 }

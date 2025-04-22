@@ -4,6 +4,8 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
+
 @Service
 public class SpringAiChatService implements ChatService {
 
@@ -14,24 +16,29 @@ public class SpringAiChatService implements ChatService {
     }
 
     @Override
-    public Answer askQuestion(Question question) {
+    public Flux<String> askQuestion(Question question) {
         long startTime = System.currentTimeMillis();
 
-        var chatResponse = chatModel.call(new Prompt(question.question()));
+        var prompt = """
+                Répond à cette question concernant le jeu %s : %s
+                """.formatted(question.gameTitle(), question.question());
 
-        long endTime = System.currentTimeMillis();
+        return chatModel.stream(prompt);
 
-        var response = chatResponse.getResult().getOutput().getText();
-        double elapsedSeconds = (endTime - startTime) / 1000.0;
-        long totalTokens = chatResponse.getMetadata().getUsage().getCompletionTokens();
-        double tokPerSec = totalTokens / elapsedSeconds;
+        // long endTime = System.currentTimeMillis();
 
-        var answer = String.format(
-                "%s%n%n(%.2f tok/sec - %d tokens - Response time: %.2f seconds)", response,
-                tokPerSec, totalTokens,
-                elapsedSeconds);
+        // var response = chatResponse.getResult().getOutput().getText();
+        // double elapsedSeconds = (endTime - startTime) / 1000.0;
+        // long totalTokens =
+        // chatResponse.getMetadata().getUsage().getCompletionTokens();
+        // double tokPerSec = totalTokens / elapsedSeconds;
 
-        return new Answer(answer);
+        // var answer = String.format(
+        // "%s%n%n(%.2f tok/sec - %d tokens - Response time: %.2f seconds)", response,
+        // tokPerSec, totalTokens,
+        // elapsedSeconds);
+
+        // return new Answer(question.gameTitle(), answer);
     }
 
 }

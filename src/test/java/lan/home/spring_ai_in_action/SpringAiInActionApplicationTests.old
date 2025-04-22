@@ -34,29 +34,29 @@ class SpringAiInActionApplicationTests {
                 chatClientBuilder);
     }
 
-    @Test
-    void evaluateRelevancy() {
+    // @Test
+    // void evaluateRelevancy() {
 
-        String userText = "Pourquoi le ciel est bleu?";
-        Question question = new Question(userText);
-        Answer answer = chatService.askQuestion(question);
+    // String userText = "Pourquoi le ciel est bleu?";
+    // Question question = new Question(userText);
+    // Answer answer = chatService.askQuestion(question);
 
-        EvaluationRequest evaluationRequest = new EvaluationRequest(
-                userText, answer.answer());
+    // EvaluationRequest evaluationRequest = new EvaluationRequest(
+    // userText, answer.answer());
 
-        EvaluationResponse response = relevancyEvaluator
-                .evaluate(evaluationRequest);
+    // EvaluationResponse response = relevancyEvaluator
+    // .evaluate(evaluationRequest);
 
-        Assertions.assertThat(response.isPass())
-                .withFailMessage("""
-                        ========================================
-                        The answer "%s"
-                        is not considered relevant to the question
-                        "%s".
-                        ========================================
-                        """, answer.answer(), userText)
-                .isTrue();
-    }
+    // Assertions.assertThat(response.isPass())
+    // .withFailMessage("""
+    // ========================================
+    // The answer "%s"
+    // is not considered relevant to the question
+    // "%s".
+    // ========================================
+    // """, answer.answer(), userText)
+    // .isTrue();
+    // }
 
     // @Test
     // void evaluateFactualAccuracy() {
