@@ -1,6 +1,5 @@
 package lan.home.spring_ai_in_action.web;
 
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,26 +23,4 @@ public class AskController {
         return springAiChatService.askQuestion(question);
     }
 
-    // public String chat(String chatId, String userMessage) {
-    // long startTime = System.currentTimeMillis();
-    // ChatResponse chatResponse = this.chatClient
-    // .prompt()
-    // .user(userMessage)
-    // .call()
-    // .chatResponse();
-
-    // long endTime = System.currentTimeMillis();
-
-    // String response = chatResponse.getResult().getOutput().getText();
-    // double elapsedSeconds = (endTime - startTime) / 1000;
-    // long totalTokens =
-    // chatResponse.getMetadata().getUsage().getGenerationTokens();
-
-    // double tokPerSec = totalTokens / elapsedSeconds;
-
-    // return String.format(
-    // "%s\n\n(%.2f tok/sec - %d tokens - Response time: %.2f seconds)", response,
-    // tokPerSec, totalTokens,
-    // elapsedSeconds);
-    // }
 }
