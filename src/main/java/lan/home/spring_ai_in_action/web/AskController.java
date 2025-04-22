@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import lan.home.spring_ai_in_action.domain.Answer;
 import lan.home.spring_ai_in_action.domain.Question;
 import lan.home.spring_ai_in_action.domain.SpringAiChatService;
 import reactor.core.publisher.Flux;

@@ -9,7 +9,6 @@ public class LocalDevTestcontainersConfig {
 
     static {
         GenericContainer<?> qdrant = new GenericContainer<>(DockerImageName.parse("qdrant/qdrant:latest"))
-                .withExposedPorts(6333)
                 .withExposedPorts(6334);
 
         qdrant.start();
@@ -19,7 +18,7 @@ public class LocalDevTestcontainersConfig {
 
     private static void configureQdrantProperties(GenericContainer<?> qdrantContainer) {
         System.setProperty("qdrant.host", qdrantContainer.getHost());
-        System.setProperty("qdrant.port", qdrantContainer.getMappedPort(6333).toString());
+        System.setProperty("qdrant.port", qdrantContainer.getMappedPort(6334).toString());
     }
 
 }

@@ -2,6 +2,12 @@ server:
   shutdown: "immediate"
 
 spring:
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: always
+
   application:
     name: spring-ai-in-action
 

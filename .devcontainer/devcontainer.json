@@ -16,7 +16,7 @@
 		"ghcr.io/schlich/devcontainer-features/powerlevel10k:1": {},
 		"ghcr.io/audacioustux/devcontainers/k9s:1": {},
 		"ghcr.io/devcontainers-extra/features/zsh-plugins:0": {}
-	}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -26,6 +26,15 @@
 
 	// Configure tool-specific properties.
 	// "customizations": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [                
+                "vscjava.vscode-java-pack",
+                "vmware.vscode-boot-dev-pack",
+                "redhat.java"
+            ]
+        }
+    }
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
