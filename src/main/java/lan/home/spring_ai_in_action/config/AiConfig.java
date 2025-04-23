@@ -4,10 +4,16 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
+import org.springframework.ai.document.MetadataMode;
 import org.springframework.ai.model.NoopApiKey;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.OpenAiEmbeddingModel;
+import org.springframework.ai.openai.OpenAiEmbeddingOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
@@ -28,9 +34,13 @@ public class AiConfig {
     }
 
     @Bean
-    ChatClient chatClient(ChatClient.Builder builder, OpenAiChatOptions openAiChatOptions) {
-        return builder.defaultSystem(
-                "Tu es quelqu'un qui a l'esprit très vif. Tes réponses sont toujours intelligentes et concises.")
+    ChatClient chatClient(ChatClient.Builder builder, OpenAiChatOptions openAiChatOptions, VectorStore vectorStore) {
+        return builder
+                .defaultAdvisors(
+                        new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder()
+                                .topK(3)
+                                .similarityThreshold(0.5)
+                                .build()))
                 .defaultOptions(openAiChatOptions)
                 .build();
     }
@@ -43,6 +53,18 @@ public class AiConfig {
                 .defaultOptions(openApiChatOptions)
                 .build();
 
+    }
+
+    @Bean
+    OpenAiEmbeddingOptions openAiEmbeddingOptions() {
+        return OpenAiEmbeddingOptions.builder()
+                .model("text-embedding-granite-embedding-278m-multilingual")
+                .build();
+    }
+
+    @Bean
+    OpenAiEmbeddingModel embeddingModel(OpenAiApi openAiApi, OpenAiEmbeddingOptions openAiEmbeddingOptions) {
+        return new OpenAiEmbeddingModel(openAiApi, MetadataMode.EMBED, openAiEmbeddingOptions);
     }
 
     @Bean
