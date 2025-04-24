@@ -4,7 +4,10 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.document.MetadataMode;
 import org.springframework.ai.model.NoopApiKey;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -34,9 +37,16 @@ public class AiConfig {
     }
 
     @Bean
-    ChatClient chatClient(ChatClient.Builder builder, OpenAiChatOptions openAiChatOptions, VectorStore vectorStore) {
+    ChatMemory chatMemory() { // #1
+        return new InMemoryChatMemory();
+    }
+
+    @Bean
+    ChatClient chatClient(ChatClient.Builder builder, OpenAiChatOptions openAiChatOptions, VectorStore vectorStore,
+            ChatMemory chatMemory) {
         return builder
                 .defaultAdvisors(
+                        MessageChatMemoryAdvisor.builder(chatMemory).build(),
                         new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder()
                                 .topK(3)
                                 .similarityThreshold(0.5)
